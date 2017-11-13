@@ -1,0 +1,145 @@
+---
+output:
+  html_document:
+    highlight: null
+    css: style.css
+    self_contained: no
+    keep_md: true
+---
+
+```{r, echo=FALSE}
+library(stringr)
+
+date <- "11/16/2017"
+vendor <- "Good Earth Catering Company"
+title <- "Unpacking Between-Site Heterogeneity in Complex Causal Mechanisms: The National Job Corps Study"
+file_title <- "Ratio of Mediator Probability Weighting"
+short_title_n = 5
+speaker <- "Guanglei Hong"
+department <- "Associate Professor in the Department of Comparative Human Development"
+university <- "University of Chicago"
+github_home <- "https://github.com/uchicago-computation-workshop"
+
+
+```
+
+```{r, echo=FALSE}
+#Function to Shorten Title
+small_title <- function(x, n=3) {
+  ul <- unlist(strsplit(x, split = "\\s+"))[1:n]
+  paste(ul,collapse=" ")
+}
+
+#Characters
+unwanted_array = list(    'Š'='S', 'š'='s', 'Ž'='Z', 'ž'='z', 'À'='A', 'Á'='A', 'Â'='A', 'Ã'='A', 'Ä'='A', 'Å'='A', 'Æ'='A', 'Ç'='C', 'È'='E', 'É'='E',
+                            'Ê'='E', 'Ë'='E', 'Ì'='I', 'Í'='I', 'Î'='I', 'Ï'='I', 'Ñ'='N', 'Ò'='O', 'Ó'='O', 'Ô'='O', 'Õ'='O', 'Ö'='O', 'Ø'='O', 'Ù'='U',
+                            'Ú'='U', 'Û'='U', 'Ü'='U', 'Ý'='Y', 'Þ'='B', 'ß'='Ss', 'à'='a', 'á'='a', 'â'='a', 'ã'='a', 'ä'='a', 'å'='a', 'æ'='a', 'ç'='c',
+                            'è'='e', 'é'='e', 'ê'='e', 'ë'='e', 'ì'='i', 'í'='i', 'î'='i', 'ï'='i', 'ð'='o', 'ñ'='n', 'ò'='o', 'ó'='o', 'ô'='o', 'õ'='o',
+                            'ö'='o', 'ø'='o', 'ù'='u', 'ú'='u', 'û'='u', 'ý'='y', 'ý'='y', 'þ'='b', 'ÿ'='y' )
+
+
+#Year
+year <- substr(date, nchar(date)-4+1, nchar(date))
+
+#Author Name
+author_clean_lower <- str_replace_all(str_to_lower(speaker), " ", "_")
+
+#Remove Unwanted Characters
+out <- author_clean_lower
+for(i in seq_along(unwanted_array))
+    out <- gsub(names(unwanted_array)[i],unwanted_array[i],out)
+author_clean <- out
+author_lastname <- tail(strsplit(author_clean,split="_")[[1]],1)
+
+#Repository Name
+#repo = paste(year, author_clean, sep = "_")
+repo = author_clean
+issues_page <- paste(github_home, repo, "issues", sep="/")
+repo_page <- paste(github_home, repo, sep="/")
+
+#Create File Name Parts
+short_title <- small_title(file_title, short_title_n)
+paper_file <- paste(year, author_lastname, short_title, sep="  ")
+
+#Clean Up File Name
+punct <- '[]\\?!\"\'#$%&(){}+*/:;,._`|~\\[<=>@\\^-]'
+
+#Remove Punctuation
+lowered_name <- str_to_lower(paper_file)
+stripped_name <- str_replace_all(lowered_name, punct, "")
+cleaned_name <- str_replace_all(stripped_name, " ", "_")
+cleaned_paper_file <- paste(cleaned_name, "pdf", sep=".")
+
+#File Name Link
+paper_link = paste(github_home, repo, "blob/master", cleaned_paper_file, sep="/"  )
+
+
+#Clean Short Title
+short_title_clean <- str_replace_all(short_title, punct, "")
+
+```
+
+<br>
+
+<h3 class=pfblock-header> The Computational Social Science Workshop Presents </h3>
+
+<h1 class=pfblock-header3> `r speaker` </h1>
+<h3 class=pfblock-header3> `r department` </h3>
+<h3 class=pfblock-header3> `r university` </h3>
+
+<br><br>
+
+
+
+<p class=pfblock-header3>The <a href="https://macss.uchicago.edu/content/computation-workshop"> Computational Social Science Workshop </a> at the University of Chicago cordially invites you to attend this week's talk:</p>
+
+<br>
+
+<div class=pfblock-header3>
+<h2 class=pfblock-header> 
+  <a href="`r paper_link`" >`r title`</a>
+</h2>
+
+<br>
+</div>
+
+<p class=footertext2> 
+
+**Abstract:** Causal mediation analysis in a multisite study is particularly intriguing because the researcher may not only test the program theory about intermediate mechanisms but also investigate whether these mechanisms operate differently across different contexts. In a series of studies, our research team re-analyzes the National Job Corps study, investigating whether Job Corps—the nation’s largest job training program for disadvantage youth—improved economic well-being through human capital formation, whether general education and vocational training were complementary or mutually reinforcing, and whether a wide array of supplementary services offered by Job Corps also contributed to the program impact. We develop new concepts and novel analytic strategies to overcome multiple methodological challenges in defining, identifying, and estimating the causal parameters and in sensitivity analysis.
+</p>
+
+<br>
+
+<h4 class=pfblock-header3> Thursday, `r date` </h4>
+<h4 class=pfblock-header3> 11:00am-12:20pm </h4>
+<h4 class=pfblock-header3> Kent 120 </h4>
+
+<br>
+
+<p class=pfblock-header3>A light lunch will be provided by `r vendor`.</p>
+
+<br><br>
+
+<!--Insert Faculty Bio Here-->
+
+
+
+<p class=footertext2> 
+
+**Dr. Guanglei Hong** is Associate Professor with tenure in the Comparative Human Development Department and the Committee on Education at the University of Chicago. She is an active member of the quantitative methodology community at the University. She obtained a Master’s degree in Statistics in 2002 and a Ph.D. in Education in 2004 from the University of Michigan.
+
+Dr. Hong develops and applies causal inference theories and methods for evaluating educational and social policies and programs in multi-level, longitudinal settings. Her work is currently focused on developing concepts and methods for analyzing causal mediation mechanisms in multisite randomized trials. She has received research funding from the National Science Foundation (NSF), the Institute of Education Sciences (IES) of the U.S. Department of Education, the William T Grant Foundation, the Spencer Foundation, and the Social Sciences and Humanities Research Council (SSHRC) of Canada.
+</p>
+
+
+
+
+<br><br>
+
+---
+
+<p class=footertext> The 2017-2018 <a href="https://macss.uchicago.edu/content/computation-workshop"> Computational Social Science Workshop </a> meets each Thursday from 11 to 12:20 p.m. in Kent 120. All interested faculty and graduate students are welcome.</p> 
+
+<p class=footertext>Students in the Masters of Computational Social Science program are expected to attend and join the discussion by posting a comment on the <a href="`r issues_page`"> issues page </a> of the <a href="`r repo_page`"> workshop's public repository on GitHub.</a> Further instructions are documented in the Computational Social Science Workshop's <a href="https://github.com/uchicago-computation-workshop/README"> README on Github.</a></p>
+
+
